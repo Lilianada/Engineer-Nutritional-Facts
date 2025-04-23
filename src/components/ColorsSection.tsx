@@ -12,7 +12,7 @@ const ColorsSection: React.FC<Props> = ({ customization, handleColorChange }) =>
     <h3 className="text-lg font-semibold text-gray-700 mb-3">Colors</h3>
     <ColorPicker label="Background" id="bgColor" value={customization.colors.background} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleColorChange(e, 'background')} />
     <ColorPicker label="Text Color" id="textColor" value={customization.colors.text} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleColorChange(e, 'text')} />
-    <ColorPicker label="Highlight Color" id="highlightColor" value={customization.colors.highlight} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleColorChange(e, 'highlight')} />
+    {/* <ColorPicker label="Highlight Color" id="highlightColor" value={customization.colors.highlight} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleColorChange(e, 'highlight')} />*/}
   </section>
 );
 
