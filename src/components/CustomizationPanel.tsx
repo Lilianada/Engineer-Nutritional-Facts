@@ -7,6 +7,10 @@ interface CustomizationPanelProps {
   setCustomization: React.Dispatch<React.SetStateAction<CustomizationState>>;
   isOpen: boolean; // For controlling modal/sidebar visibility
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>; // To close the panel
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>, field: keyof Omit<CustomizationState, 'facts' | 'colors' | 'fonts'>) => void;
+  handleFactChange: (index: number, field: keyof Fact, value: string | number) => void;
+  handleColorChange: (e: React.ChangeEvent<HTMLInputElement>, field: keyof CustomizationState['colors']) => void;
+  handleFontChange: (e: React.ChangeEvent<HTMLSelectElement>, field: keyof CustomizationState['fonts']) => void;
 }
 
 // Reusable Input Component for cleaner code
@@ -85,39 +89,12 @@ const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
   customization, 
   setCustomization, 
   isOpen, 
-  setIsOpen 
+  setIsOpen, 
+  handleInputChange, 
+  handleFactChange, 
+  handleColorChange, 
+  handleFontChange 
 }) => {
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof Omit<CustomizationState, 'facts' | 'colors' | 'fonts'>) => {
-    setCustomization((prev) => ({ ...prev, [field]: e.target.value }));
-  };
-
-  const handleFactChange = (index: number, field: keyof Fact, value: string | number) => {
-    setCustomization((prev) => {
-      const newFacts = [...prev.facts];
-      // Ensure value is stored as a number for the 'value' field
-      const processedValue = field === 'value' ? (parseInt(value as string, 10) || 0) : value;
-      // Create a new fact object with the updated field
-      const updatedFact = { ...newFacts[index], [field]: processedValue };
-      newFacts[index] = updatedFact;
-      return { ...prev, facts: newFacts };
-    });
-  };
-
-  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof CustomizationState['colors']) => {
-    setCustomization((prev) => ({ 
-      ...prev, 
-      colors: { ...prev.colors, [field]: e.target.value } 
-    }));
-  };
-
-  const handleFontChange = (e: React.ChangeEvent<HTMLSelectElement>, field: keyof CustomizationState['fonts']) => {
-    setCustomization((prev) => ({ 
-      ...prev, 
-      fonts: { ...prev.fonts, [field]: e.target.value } 
-    }));
-  };
-
   // Only hide the panel on mobile if not open; always show on desktop
   return (
     <>
@@ -210,61 +187,7 @@ const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
       </AnimatePresence>
 
       {/* Desktop: Fixed, Scrollable Sidebar (always visible on md+) */}
-      <div className="hidden md:block fixed inset-y-0 left-0 w-80 bg-white shadow-lg overflow-y-auto z-30">
-        <div className="p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-6">Customize Label</h2>
-          {/* Text Fields */}
-          <section className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">Text Content</h3>
-            <InputField label="Header Text" id="headerText" value={customization.headerText} onChange={(e) => handleInputChange(e, 'headerText')} />
-            <InputField label="Subtitle Text" id="subtitleText" value={customization.subtitleText} onChange={(e) => handleInputChange(e, 'subtitleText')} />
-            <InputField label="Footer Text 1" id="footerText1" value={customization.footerText1} onChange={(e) => handleInputChange(e, 'footerText1')} />
-            <InputField label="Footer Text 2" id="footerText2" value={customization.footerText2} onChange={(e) => handleInputChange(e, 'footerText2')} />
-          </section>
-          <section className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">Facts & Values</h3>
-            {customization.facts.map((fact, index) => (
-              <div key={index} className="grid grid-cols-3 gap-2 mb-3 p-2 border border-gray-200 rounded">
-                <div className="col-span-2">
-                  <label htmlFor={`fact-label-${index}`} className="sr-only">Fact Label {index + 1}</label>
-                  <input
-                    type="text"
-                    id={`fact-label-${index}`}
-                    value={fact.label}
-                    onChange={(e) => handleFactChange(index, 'label', e.target.value)}
-                    className="w-full px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150 ease-in-out"
-                    placeholder="Fact Label"
-                  />
-                </div>
-                <div>
-                  <label htmlFor={`fact-value-${index}`} className="sr-only">Fact Value {index + 1}</label>
-                  <input
-                    type="number"
-                    id={`fact-value-${index}`}
-                    value={fact.value}
-                    onChange={(e) => handleFactChange(index, 'value', e.target.value)}
-                    className="w-full px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150 ease-in-out"
-                    placeholder="Value %"
-                    min="0"
-                  />
-                </div>
-              </div>
-            ))}
-          </section>
-          <section className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">Colors</h3>
-            <ColorPicker label="Background" id="bgColor" value={customization.colors.background} onChange={(e) => handleColorChange(e, 'background')} />
-            <ColorPicker label="Text Color" id="textColor" value={customization.colors.text} onChange={(e) => handleColorChange(e, 'text')} />
-            <ColorPicker label="Highlight Color" id="highlightColor" value={customization.colors.highlight} onChange={(e) => handleColorChange(e, 'highlight')} />
-          </section>
-          <section>
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">Fonts</h3>
-            <SelectField label="Header Font" id="headerFont" value={customization.fonts.headerFamily} onChange={(e) => handleFontChange(e, 'headerFamily')} options={FONT_OPTIONS.header} />
-            <SelectField label="Label Font" id="labelFont" value={customization.fonts.labelFamily} onChange={(e) => handleFontChange(e, 'labelFamily')} options={FONT_OPTIONS.label} />
-            <SelectField label="Value Font" id="valueFont" value={customization.fonts.valueFamily} onChange={(e) => handleFontChange(e, 'valueFamily')} options={FONT_OPTIONS.value} />
-          </section>
-        </div>
-      </div>
+    
     </>
   );
 };
