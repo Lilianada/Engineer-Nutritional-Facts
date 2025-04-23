@@ -52,7 +52,7 @@ const LabelActionBar: React.FC<LabelActionBarProps> = ({ labelRef, headerText })
         backgroundColor: null,
         scale: 5, // Increased scale for better text quality
         logging: false,
-        width: 450,
+        width: 480,
         height: 560,
       });
 
