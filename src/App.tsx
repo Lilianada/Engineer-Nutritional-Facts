@@ -101,7 +101,7 @@ const App: React.FC = () => {
             </button>
           )}
           {/* Label Action Bar (Download/Share) */}
-          <div className="w-full max-w-md mr-8">
+          <div className="w-full max-w-md sm:mb-4 mr-8">
             <LabelActionBar labelRef={labelRef} headerText={customization.headerText} />
           </div>
           {/* Label Display Area */}

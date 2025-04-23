@@ -80,7 +80,7 @@ const LabelDisplay: React.FC<LabelDisplayProps> = ({ customization, labelRef }) 
           <div className="flex justify-end items-baseline mb-1 border-b-4 border-black pb-1"></div>
           <p className="text-xs mb-1" style={labelStyle}>{footerText1}</p>
           <p className="text-xs mb-2" style={labelStyle}>{footerText2}</p>
-          <p className="text-xs text-center pt-2 border-t border-gray-300" style={labelStyle}>Made in Lily's Lab</p>
+          <p className="text-xs text-center pt-2 border-t border-gray-300" style={labelStyle}>Made in Lilyslab.xyz</p>
         </div>
       </div>
   );
