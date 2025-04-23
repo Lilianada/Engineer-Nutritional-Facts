@@ -1,0 +1,12 @@
+Files/folders to remove for cleanup:
+- src/components/ShareDownloadArea.tsx (no longer used)
+
+Unused styles (manual review needed):
+- src/App.css: Remove if not imported/used
+
+Unused test files (optional):
+- src/App.test.tsx: Remove if not needed
+
+No unused markdown/docs found.
+
+After file removal, run npm run build for a clean build.
