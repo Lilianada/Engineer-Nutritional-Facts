@@ -31,7 +31,7 @@ const App: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-200 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-gray-200 flex flex-row">
 
       {/* Customization Panel*/}
       <CustomizationPanel 
