@@ -1,8 +1,31 @@
 import React from 'react';
 import html2canvas from 'html2canvas';
 
+interface Fact {
+  label: string;
+  value: number | string;
+}
+
+interface Customization {
+  headerText: string;
+  subtitleText: string;
+  facts: Fact[];
+  footerText1: string;
+  footerText2: string;
+  colors: {
+    text: string;
+    background: string;
+    highlight: string;
+  };
+  fonts: {
+    headerFamily: string;
+    labelFamily: string;
+    valueFamily: string;
+  };
+}
+
 interface LabelDisplayProps {
-  customization: any;
+  customization: Customization;
   labelRef: React.RefObject<HTMLDivElement | null>;
 }
 
@@ -43,7 +66,7 @@ const LabelDisplay: React.FC<LabelDisplayProps> = ({ customization, labelRef }) 
           </div>
 
           <div className="mb-2">
-            {facts.map((fact, index) => (
+            {Array.isArray(facts) && facts.map((fact, index) => (
               <div
                 key={index}
                 className="flex justify-between items-center border-b border-gray-400 py-1"
