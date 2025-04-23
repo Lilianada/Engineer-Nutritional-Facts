@@ -9,7 +9,12 @@ import { CustomizationState, INITIAL_STATE } from './types/customization';
 const App: React.FC = () => {
   const [customization, setCustomization] = useState<CustomizationState>(INITIAL_STATE);
   // Keep panel open by default on larger screens, allow toggle on smaller
-  const [isPanelOpen, setIsPanelOpen] = useState(() => window.innerWidth >= 768); // Closed by default on mobile
+  const [isPanelOpen, setIsPanelOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth >= 768;
+    }
+    return false;
+  }); // Closed by default on mobile
   const labelRef = useRef<HTMLDivElement>(null);
 
   // Shared handler functions
@@ -45,7 +50,9 @@ const App: React.FC = () => {
   React.useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
-        setIsPanelOpen(true); // Ensure panel is open on resize to desktop
+        setIsPanelOpen(true); // Open on desktop
+      } else {
+        setIsPanelOpen(false); // Closed on mobile
       }
     };
     window.addEventListener('resize', handleResize);
@@ -82,7 +89,7 @@ const App: React.FC = () => {
           />
         </div>
         {/* Main area: label preview, centered */}
-        <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-8 md:ml-[28rem] min-h-screen">
+        <main className="flex-1 flex flex-col items-center justify-center  md:p-8 md:ml-[28rem] min-h-screen gap-3">
           {/* Button to toggle panel on mobile (only show if panel is closed) */}
           {!isPanelOpen && (
             <button
@@ -94,11 +101,11 @@ const App: React.FC = () => {
             </button>
           )}
           {/* Label Action Bar (Download/Share) */}
-          <div className="w-full max-w-md mb-2">
+          <div className="w-full max-w-md mr-8">
             <LabelActionBar labelRef={labelRef} headerText={customization.headerText} />
           </div>
           {/* Label Display Area */}
-          <div className="w-full max-w-md mb-6 transition-transform duration-300 ease-in-out md:scale-105 lg:scale-110 mx-auto">
+          <div className="w-full max-w-md p-2 transition-transform duration-300 ease-in-out md:scale-105 lg:scale-110 mx-auto">
             <LabelDisplay customization={customization} labelRef={labelRef} />
           </div>
         </main>
