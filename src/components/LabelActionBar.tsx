@@ -142,7 +142,7 @@ const LabelActionBar: React.FC<LabelActionBarProps> = ({ labelRef, headerText })
       >
         <DownloadIcon  />
       </button>
-      <div className="relative">
+      {/* <div className="relative">
         <button
           onClick={() => setIsShareDropdownOpen((prev) => !prev)}
           disabled={isProcessing}
@@ -162,7 +162,7 @@ const LabelActionBar: React.FC<LabelActionBarProps> = ({ labelRef, headerText })
             <button onClick={() => handleShare('Reddit')} disabled={isProcessing} className="transition-transform duration-150 ease-in-out hover:scale-110" title="Share on Reddit"><RedditIcon size={32} round /></button>
           </div>
         )}
-      </div>
+      </div> */}
       {/* Hidden export container for clean PNG export */}
       <div ref={exportContainerRef} style={{ position: 'fixed', left: '-9999px', top: 0, width: 0, height: 0, overflow: 'hidden', pointerEvents: 'none', background: 'white' }} />
     </div>
